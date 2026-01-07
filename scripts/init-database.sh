@@ -32,7 +32,7 @@ mongosh \
   --port $MONGO_PORT \
   --username "$MONGO_INITDB_ROOT_USERNAME" \
   --password "$MONGO_INITDB_ROOT_PASSWORD" \
-  --authenticationDatabase admin \
+  --authenticationDatabase "$MONGO_INITDB_DATABASE" \
   /init-scripts/01-create-app-db.js
 
 echo "MongoDB initialization completed!"

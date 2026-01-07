@@ -24,7 +24,7 @@ services:
         --quiet
         --username ${MONGO_INITDB_ROOT_USERNAME}
         --password ${MONGO_INITDB_ROOT_PASSWORD}
-        --authenticationDatabase admin
+        --authenticationDatabase ${MONGO_INITDB_DATABASE}
         --eval "db.adminCommand('ping').ok"
       interval: 30s
       timeout: 10s
