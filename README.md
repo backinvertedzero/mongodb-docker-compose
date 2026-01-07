@@ -10,4 +10,5 @@ docker compose -f ./docker-compose-local-init.yml -p mongodb-local up
 
 # Use
 mongosh -port 27017 -authenticationDatabase "admin" -u "root" -p
+
 mongosh "mongodb://appuser:appuser@localhost:27017/myappdb"
