@@ -1,0 +1,27 @@
+services:
+  mongodb-init:
+    build:
+      context: .
+      args:
+        - MONGODB_IMAGE_VERSION=${MONGODB_IMAGE_VERSION}
+    container_name: ${CONTAINER_NAME}-init
+    networks:
+      - ${MONGO_NETWORK:-mongodb_network}
+    restart: no
+    env_file:
+      - .env
+    volumes:
+        - ./init-scripts:/init-scripts:ro
+        - ./scripts:/scripts:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    entrypoint: ["/bin/bash", "/scripts/init-database.sh"]
+
+networks:
+  mongodb_network:
+    driver: bridge
+    name: mongodb_network
+    external: true

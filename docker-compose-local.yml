@@ -1,0 +1,39 @@
+services:
+  mongodb:
+    build:
+      context: .
+      args:
+        - MONGODB_IMAGE_VERSION=${MONGODB_IMAGE_VERSION}
+    container_name: ${CONTAINER_NAME}
+    networks:
+      - ${MONGO_NETWORK}
+    tty: true
+    stdin_open: true
+    ports:
+      - "${MONGO_PORT}:27017"
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: >
+        mongosh
+        --quiet
+        --username ${MONGO_INITDB_ROOT_USERNAME}
+        --password ${MONGO_INITDB_ROOT_PASSWORD}
+        --authenticationDatabase admin
+        --eval "db.adminCommand('ping').ok"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+
+networks:
+  mongodb_network:
+    driver: bridge
+    name: mongodb_network
+    external: true
